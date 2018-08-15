@@ -1,0 +1,17 @@
+.logo{
+    width: auto;
+    height: 30px;
+}
+
+body{
+
+    background: dimgrey;
+}
+
+.main{
+    background: #fff;
+    width: 730px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 10px;
+}

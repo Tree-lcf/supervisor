@@ -1,0 +1,48 @@
+ul{
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li{
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    padding: 15px 0;
+}
+
+.avatar-group{
+    width: 38px;
+    height: 100%;
+    float: left;
+}
+
+.avatar-group.avatar{
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+}
+
+.project-group{
+    float: left;
+    margin-left: 10px;
+    width: 660px;
+}
+
+.project-title a{
+    color: #259;
+    font-weight: 900;
+}
+
+.project-info{
+    text-align: right;
+    border: 0;
+}
+
+.project-info .project-author{
+    margin-right: 20px;
+}
+
+.avatar{
+    width: 38px;
+    height: 100%;
+    float: left;
+}
