@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-问答
+项目接口
 {% endblock %}
 
 {% block head %}
@@ -9,37 +9,49 @@
 {% endblock %}
 
 {% block main %}
-    <h3 class="page-title">{{ question.title }}</h3>
+    <h3 class="page-title">{{ project.name }}</h3>
     <p class="question-info">
-        <span>{{ question.author.username }}</span>
-        <span>{{ question.create_time }}</span>
+        <span>{{ project.author.username }}</span>
+        <span>{{ project.create_time }}</span>
     </p>
     <hr>
-    <p class="question-content">
-    {{ question.content }}
-    </p>
+
     <hr>
-    <h4>评论</h4>
-    <form action="{{ url_for('add_answer') }}" method="post">
+    <h4>接口列表</h4>
+    <form action="{{ url_for('add_api') }}" method="post">
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="请评论" name="answer_content">
-            <input type="hidden" name="question_id" value="{{ question.id }}">
+            <input type="text" class="form-control" placeholder="module_api" name="module">
+            <input type="text" class="form-control" placeholder="url_api" name="url">
+            <input type="text" class="form-control" placeholder="method_api" name="method">
+            <input type="text" class="form-control" placeholder="headers_api" name="headers">
+            <input type="text" class="form-control" placeholder="payload_api" name="payload">
+            <input type="hidden" name="project_name" value="{{ project.name }}">
         </div>
         <div class="form-group" style="text-align: right">
-            <button class="btn btn-primary">立即评论</button>
+            <button class="btn btn-primary">立即新增</button>
         </div>
     </form>
     <ul class="answer-list">
-    {% for answer in question.answers %}
+    {% for api in project.api %}
         <li>
             <div class="user-info">
             <img src="{{ url_for('static',filename='images/Koala.jpg') }}" alt="" class="avatar">
-            <span class="username">{{ answer.author.username }}</span>
-            <span class="create_time">{{ answer.create_time }}</span>
+            <span class="username">{{ api.author.username }}</span>
+            <span class="create_time">{{ api.create_time }}</span>
             </div>
             <p class="answer-content">
-                {{ answer.content }}
+                {{ api.module }}
+                {{ api.url }}
+                {% if api.result == 1 %}
+                PASS
+                {% elif api.result == 0 %}
+                FAIL
+                {% else %}
+                未执行
+                {% endif %}
             </p>
+                <a href="{{ url_for('test',api_id=api.id) }}" class="btn btn-primary">Test</a>
+
         </li>
     {% endfor %}
     </ul>

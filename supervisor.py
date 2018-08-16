@@ -4,6 +4,7 @@ import config
 from models import db, User, API, Project
 from decorators import login_required
 from sqlalchemy import or_
+import requests
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -63,56 +64,29 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-''' 
-@app.route('/question/', methods=['GET', 'POST'])
+
+@app.route('/test/<api_id>')
 @login_required
-def question():
-    if request.method == 'GET':
-        return render_template('1question1.html')
-    else:
-        title = request.form.get('title')
-        content = request.form.get('content')
-        question = Question(title=title, content=content)
-        # user_id = session.get('user_id')
-        # user = User.query.filter(User.id == user_id).first()
-        question.author = g.user
-        db.session.add(question)
-        db.session.commit()
-        return redirect(url_for('index'))
-
-
-@app.route('/detail/<question_id>')
-def detail(question_id):
-    context = {
-        'question': Question.query.filter(Question.id == question_id).first()
-    }
-    return render_template('detail.html', **context)
-
-
-@app.route('/add_answer/', methods=['POST', 'GET'])
-@login_required
-def add_answer():
-    content = request.form.get('answer_content')
-    question_id = request.form.get('question_id')
-    answer = Answer(content=content)
-    # user_id = session.get('user_id')
-    # user = User.query.filter(User.id == user_id).first()
-    answer.author = g.user
-    question = Question.query.filter(Question.id == question_id).first()
-    answer.question = question
-    db.session.add(answer)
+def test(api_id):
+    pass
+    '''
+    api = API.query.filter(API.id == api_id).first()
+    url = api.url
+    method = api.method
+    headers = api.headers
+    payload = api.payload
+    res = requests()
+    db.session.add(question)
     db.session.commit()
-    return redirect(url_for('detail', question_id=question_id))
+    return redirect(url_for('index'))'''
 
 
 @app.route('/search/')
 @login_required
 def search():
     q = request.args.get('q')
-    questions = Question.query.filter(or_(Question.title.contains(q),
-                                          Question.content.contains(q))).order_by('-create_time')
-    return render_template('index.html', questions=questions)
-'''
+    projects = Project.query.filter(Project.name.contains(q)).order_by('-create_time')
+    return render_template('index.html', projects=projects)
 
 
 @app.route('/project/', methods=['GET', 'POST'])
@@ -128,22 +102,32 @@ def project():
         db.session.commit()
         return redirect(url_for('index'))
 
-'''
+
+@app.route('/detail/<project_name>')
+@login_required
+def detail(project_name):
+    context = {
+        'project': Project.query.filter(Project.name == project_name).first()
+    }
+    return render_template('detail.html', **context)
+
+
 @app.route('/add_api/', methods=['POST', 'GET'])
 @login_required
 def add_api():
-    url_api = request.form.get('url_api')
-    method_api = request.form.get('method_api')
-    headers_api = request.form.get('headers_api')
-    payload_api = request.form.get('payload_api')
-    api = API(url=url_api, method=method_api, headers=headers_api, payload=payload_api)
+    module_api = request.form.get('module')
+    url_api = request.form.get('url')
+    method_api = request.form.get('method')
+    headers_api = request.form.get('headers')
+    payload_api = request.form.get('payload')
+    project_name = request.form.get('project_name')
+    api = API(module=module_api, url=url_api, method=method_api, headers=headers_api, payload=payload_api)
     api.author = g.user
-    question = Question.query.filter(Question.id == question_id).first()
-    answer.question = question
-    db.session.add(answer)
+    project = Project.query.filter(Project.name == project_name).first()
+    api.project = project
+    db.session.add(api)
     db.session.commit()
-    return redirect(url_for('detail', question_id=question_id))
-'''
+    return redirect(url_for('detail', project_name=project_name))
 
 
 @app.before_request

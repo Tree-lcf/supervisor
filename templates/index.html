@@ -14,7 +14,7 @@
             <img src="{{ url_for('static',filename='images/flower.jpg') }}" alt="" class="avatar">
         </div>
         <div class="project-group">
-            <p class="project-title"><a href="{{ url_for('detail',project_id=project.id) }}">{{ project.name }}</a></p>
+            <p class="project-title"><a href="{{ url_for('detail',project_name=project.name) }}">{{ project.name }}</a></p>
             <div class="project-info">
                 <span class="project-author">{{ project.author.username }}</span>
                 <span class="project-time">{{ project.create_time }}</span>

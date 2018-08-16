@@ -43,6 +43,7 @@ class API(db.Model):
     method = db.Column(db.String(100), nullable=False)
     headers = db.Column(db.Text, nullable=False)
     payload = db.Column(db.Text)
+    result = db.Column(db.Integer, default=2)
     create_time = db.Column(db.DateTime, default=datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     author = db.relationship('User', backref=db.backref('api'))
